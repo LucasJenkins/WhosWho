@@ -1,7 +1,7 @@
 import request from '../utils/request'
 
 const TOKEN_KEY = 'whos-who-access-token'
-const AUTH_ENDPOINT = 'http://ec2-18-212-143-11.compute-1.amazonaws.com/api/spotify_access_token'
+const AUTH_ENDPOINT = 'https://nuod0t2zoe.execute-api.us-east-2.amazonaws.com/FT-Classroom/spotify-auth-token'
 
 export function fetchAndStoreAccessToken () {
   let isFetching = false
