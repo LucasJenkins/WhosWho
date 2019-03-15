@@ -1,47 +1,117 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import connect from 'react-redux/es/connect/connect'
+import './index.css'
+import player from '../../components/player'
+import { Link } from 'react-router-dom'
 
-import { loadCategories, selectCategory } from '../../ducks/config.duck'
+import {
+  loadGenres,
+  selectGenre,
+  selectNumArtists,
+  selectNumSongs,
+  loadArtistByGenres
+} from '../../ducks/config.duck'
 
 class Home extends React.Component {
   componentDidMount () {
-    this.props.loadCategories()
+    this.props.loadGenres()
   }
 
   render () {
-    const categories = this.props.categories.map(
-      category => (
-        <option
-          key={category}
-          value={category}>{category}
-        </option>
-      )
-    )
+    const genres = this.props.genres.map(genres => (
+      <option key={genres} value={genres}>
+        {genres}
+      </option>
+    ))
 
     return (
-      <div>
-        <select onChange={(event) => this.props.selectCategory(event.target.value)}>
-          {categories}
+      <div className='landing'>
+        <select onChange={event => this.props.selectGenre(event.target.value)}>
+          {genres}
         </select>
+        <br />
+        <h6>Select Number of Songs</h6>
+        <br />
+        <select
+          onChange={event =>
+            console.log(this.props.selectNumSongs(event.target.value))
+          }
+        >
+          <option key='1' value='1'>
+            1
+          </option>
+          <option key='2' value='2'>
+            2
+          </option>
+          <option key='3' value='3'>
+            3
+          </option>
+        </select>
+        <br />
+        <h6>Select Number of Artist</h6>
+        <br />
+        <select
+          onChange={event =>
+            console.log(this.props.selectNumArtists(event.target.value))
+          }
+        >
+          <option key='2' value='2'>
+            2
+          </option>
+          <option key='3' value='3'>
+            3
+          </option>
+          <option key='4' value='4'>
+            4
+          </option>
+        </select>
+        <button
+          onClick={() =>
+            this.props.loadArtistByGenres(
+              this.props.genre,
+              this.props.numArtists
+            )
+          }
+        >
+          Start
+        </button>
+
+        <Link to='/gamepage'>
+          <button>Begin Game</button>
+        </Link>
+        <button onClick={() => console.log(this.props)}>Check Props</button>
       </div>
     )
   }
 }
 
 Home.propTypes = {
-  loadCategories: PropTypes.func.isRequired,
-  selectCategory: PropTypes.func.isRequired,
-  categories: PropTypes.array
+  loadGenres: PropTypes.func.isRequired,
+  selectGenre: PropTypes.func.isRequired,
+  loadArtistByGenres: PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state) => ({
-  categories: state.config.categories
+const mapStateToProps = state => ({
+  genres: state.config.genres,
+  artists: state.config.artists,
+  numArtists: state.config.numArtists,
+  numSongs: state.config.numSongs,
+  genre: state.config.genre,
+  correctAnswer: state.config.correctAnswer,
+  selectedAnswer: state.config.selectedAnswer
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  loadCategories: () => dispatch(loadCategories()),
-  selectCategory: category => dispatch(selectCategory(category))
+const mapDispatchToProps = dispatch => ({
+  loadGenres: () => dispatch(loadGenres()),
+  selectGenre: genre => dispatch(selectGenre(genre)),
+  selectNumSongs: number => dispatch(selectNumSongs(number)),
+  selectNumArtists: number => dispatch(selectNumArtists(number)),
+  loadArtistByGenres: (genre, numArtists) =>
+    dispatch(loadArtistByGenres(genre, numArtists))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home)

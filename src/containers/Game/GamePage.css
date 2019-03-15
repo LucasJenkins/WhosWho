@@ -1,0 +1,16 @@
+.wrapper{
+  background-color: black; 
+  width: 20%;
+  height: 20%;
+  margin-top: 20px;
+  margin-bottom: 20px
+}
+.items{
+    border: 1px solid;
+    padding: 50px;
+    box-shadow: 5px 10px #888888;
+    display: flex;
+    align-content: center;
+    margin: 20px;
+    background-color: green
+}

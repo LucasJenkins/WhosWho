@@ -7,6 +7,7 @@ import { ConnectedRouter } from 'react-router-redux'
 import configureStore from './configureStore'
 import { fetchAndStoreAccessToken } from './services/auth'
 import App from './containers/App'
+import GamePage from './containers/Game/GamePage'
 
 // Fetch and store the Spotify access token in localStorage
 fetchAndStoreAccessToken()
