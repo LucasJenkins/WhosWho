@@ -21,12 +21,7 @@ import { IconButton } from '@material-ui/core'
 
 class GamePage extends React.Component {
   componentDidMount () {
-    this.props.loadArtistByGenres(this.props.genre, this.props.numArtists),
-    this.props.loadCorrectAnswer(chooseRandom(this.props.artists, 1)),
-    this.props.loadTracksByArtists(
-      this.props.correctAnswer,
-      this.props.numSongs
-    )
+    this.props.loadArtistByGenres(this.props.genre, this.props.numArtists)
   }
 
   render () {
@@ -56,6 +51,7 @@ class GamePage extends React.Component {
           <Link to='/'>
             <button>New Game</button>
           </Link>
+          <button onClick={() => console.log(this.props)}>Check Props</button>
         </div>
       </div>
     )

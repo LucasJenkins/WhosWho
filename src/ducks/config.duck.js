@@ -189,20 +189,22 @@ export const loadGenres = () => dispatch =>
 export const loadArtistByGenres = (genre, numArtists) => dispatch =>
   fetchArtistByGenre(genre)
     .then(({ artists }) => {
-      const artistsRefined = chooseRandom(artists.items, numArtists).map(
-        artist => ({ name: artist.name, id: artist.id, images: artist.images })
-      )
-
-      return dispatch(loadArtistDone(artistsRefined))
+      const artistsRefined = chooseRandom(artists.items, numArtists)
+        .map(artist => ({
+          name: artist.name,
+          id: artist.id,
+          images: artist.images
+        }))
+        .then(loadCorrectAnswer(chooseRandom(artists.name, 1)))
+        .then(
+          fetchTracksByArtist(artist).then(({ tracks }) => {
+            const tracksRefined = tracks.items.map(t => t.preview_url)
+            const tracksRefined2 = chooseRandom(tracksRefined, numSongs)
+            return (
+              dispatch(loadTracksDone(tracksRefined2)),
+              dispatch(loadArtistDone(artistsRefined))
+            )
+          })
+        )
     })
     .catch(err => dispatch(loadArtistsFailure(err)))
-
-export const loadTracksByArtists = (artist, numSongs) => dispatch =>
-  fetchTracksByArtist(artist)
-    .then(({ tracks }) => {
-      const tracksRefined = tracks.items.map(t => t.preview_url)
-      const tracksRefined2 = chooseRandom(tracksRefined, numSongs)
-      console.log(tracksRefined2)
-      return dispatch(loadTracksDone(tracksRefined2))
-    })
-    .catch(err => dispatch(loadTracksFailure(err)))

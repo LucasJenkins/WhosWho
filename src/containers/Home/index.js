@@ -34,9 +34,7 @@ class Home extends React.Component {
         <h6>Select Number of Songs</h6>
         <br />
         <select
-          onChange={event =>
-            console.log(this.props.selectNumSongs(event.target.value))
-          }
+          onChange={event => this.props.selectNumSongs(event.target.value)}
         >
           <option key='1' value='1'>
             1
@@ -66,21 +64,9 @@ class Home extends React.Component {
             4
           </option>
         </select>
-        <button
-          onClick={() =>
-            this.props.loadArtistByGenres(
-              this.props.genre,
-              this.props.numArtists
-            )
-          }
-        >
-          Start
-        </button>
-
         <Link to='/gamepage'>
           <button>Begin Game</button>
         </Link>
-        <button onClick={() => console.log(this.props)}>Check Props</button>
       </div>
     )
   }
